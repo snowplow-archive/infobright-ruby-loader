@@ -17,7 +17,7 @@ The main differences between Infobright Ruby Loader and ParaFlex are as follows:
 
 ## Roadmap
 
-It would be nice to package just the data load task as a [Resque] [resque] job with a `perform` method.
+It would be nice to wrap just the data load task as a [Resque] [resque] job with a `perform` method.
 
 [paraflex]: http://www.infobright.org/Blog/Entry/unscripted/
 [resque]: https://github.com/defunkt/resque/
