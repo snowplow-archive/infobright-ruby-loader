@@ -13,7 +13,7 @@ The main differences between Infobright Ruby Loader and ParaFlex are as follows:
 1. Infobright Ruby Loader (IRL) is a Bundler Gem and has a Ruby API, so can be added easily into larger Ruby ETL processes
 2. IRL allows you to specify the data delimiter and encloser as a global configuration setting
 3. IRL allows multiple loads to the same table - it just runs them in series, not parallel
-4. IRL can be used to load all the files from a directory as well as process a file list
+4. IRL can be fed a directory of files, as well as a file list
 
 ## Roadmap
 
