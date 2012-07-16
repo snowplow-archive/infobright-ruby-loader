@@ -1,5 +1,4 @@
 # Infobright Ruby Loader
-======================
 
 ## Overview
 
@@ -16,6 +15,9 @@ The main differences between Infobright Ruby Loader and ParaFlex are as follows:
 3. IRL allows multiple loads to the same table - it just runs them in series, not parallel
 4. IRL can be used to load all files from a directory as well as process a file list
 
+## Roadmap
 
+It would be nice to package the atomic data load task as a [Resque] [resque] job with a `perform` method.
 
 [paraflex]: http://www.infobright.org/Blog/Entry/unscripted/
+[resque]: https://github.com/defunkt/resque/
