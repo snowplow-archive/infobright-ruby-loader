@@ -19,6 +19,8 @@ The main differences between Infobright Ruby Loader and ParaFlex are as follows:
 
 It would be nice to wrap just the data load task as a [Resque] [resque] job with a `perform` method.
 
+It would also be nice to wrap the data load task as a Sidekiq job.
+
 ## Copyright and license
 
 cloudfront-log-deserializer is copyright 2012 SnowPlow Analytics Ltd.
