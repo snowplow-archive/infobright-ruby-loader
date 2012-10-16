@@ -1,38 +1,29 @@
-# Infobright Ruby Loader
+# Infobright::Loader
 
-## Overview
+TODO: Write a gem description
 
-Infobright Ruby Loader is a data loader for Infobright Community Edition (ICE) and Enterprise Edition (IEE), built in Ruby.
+## Installation
 
-Infobright Ruby Loader was inspired by [ParaFlex] [paraflex], a Bash script from the Infobright team to perform parallel loading of ICE and IEE. 
+Add this line to your application's Gemfile:
 
-## Main differences from ParaFlex
+    gem 'infobright-loader'
 
-The main differences between Infobright Ruby Loader and ParaFlex are as follows:
+And then execute:
 
-1. Infobright Ruby Loader (IRL) is a Bundler Gem and has a Ruby API, so can be added easily into larger Ruby ETL processes
-2. IRL allows you to specify the data delimiter and encloser as a global configuration setting
-3. IRL allows multiple loads to the same table - it just runs them in series, not parallel
-4. IRL can be fed a directory of files, as well as a file list
+    $ bundle
 
-## Roadmap
+Or install it yourself as:
 
-* Wrap just the data load task as a [Resque] [resque] job with a `perform` method
-* Wrap the data load task as a Sidekiq job.
+    $ gem install infobright-loader
 
-## Copyright and license
+## Usage
 
-Infobright Ruby Loader is copyright 2012 SnowPlow Analytics Ltd.
+TODO: Write usage instructions here
 
-Licensed under the [Apache License, Version 2.0] [license] (the "License");
-you may not use this software except in compliance with the License.
+## Contributing
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-[paraflex]: http://www.infobright.org/Blog/Entry/unscripted/
-[resque]: https://github.com/defunkt/resque/
-[license]: http://www.apache.org/licenses/LICENSE-2.0
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Added some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
