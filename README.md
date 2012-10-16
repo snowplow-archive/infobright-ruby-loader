@@ -10,7 +10,7 @@ IRL was inspired by [ParaFlex] [paraflex], a Bash script from the Infobright tea
 
 The main differences between IRL and ParaFlex are as follows:
 
-1. IRL is a Bundler Gem and has a Ruby API, so can be added easily into larger Ruby ETL processes
+1. As well as being a command-line tool, IRL is a Ruby gem with a Ruby API, so can be added easily into larger Ruby ETL processes
 2. IRL allows you to specify the data delimiter and encloser as a global configuration setting
 3. IRL allows multiple loads to the same table - it just runs them in series, not parallel
 4. IRL can be fed a directory of files, as well as a file list
@@ -31,7 +31,13 @@ Or install it yourself as:
 
 ## Usage
 
+### From the command-line
+
 You can also use IRL from the command-line.
+
+REST OF USAGE INSTRUCTIONS TO COME
+
+### Via its API
 
 REST OF USAGE INSTRUCTIONS TO COME
 
@@ -58,5 +64,4 @@ limitations under the License.
 
 [ice]: http://www.infobright.org/
 [paraflex]: http://www.infobright.org/Blog/Entry/unscripted/
-[resque]: https://github.com/defunkt/resque/
 [license]: http://www.apache.org/licenses/LICENSE-2.0
