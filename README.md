@@ -8,7 +8,7 @@ IRL was inspired by [ParaFlex] [paraflex], a Bash script from the Infobright tea
 
 ## Main differences from ParaFlex
 
-The main differences between Infobright Ruby Loader and ParaFlex are as follows:
+The main differences between IRL and ParaFlex are as follows:
 
 1. IRL is a Bundler Gem and has a Ruby API, so can be added easily into larger Ruby ETL processes
 2. IRL allows you to specify the data delimiter and encloser as a global configuration setting
