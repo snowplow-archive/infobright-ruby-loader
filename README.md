@@ -41,6 +41,12 @@ REST OF USAGE INSTRUCTIONS TO COME
 
 REST OF USAGE INSTRUCTIONS TO COME
 
+## Hacking locally
+
+    $ gem build infobright-loader.gemspec
+    $ sudo gem install infobright-loader-0.0.1.gem
+    $ bundle install
+
 ## Contributing
 
 1. Fork it

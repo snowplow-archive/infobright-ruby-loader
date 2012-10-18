@@ -1,0 +1,16 @@
+# Example control file for IRL
+# All of the below can be overridden at the command line
+
+database:
+	name: ADD HERE
+data-format:
+	terminator: ADD HERE
+	encloser: ADD HERE
+data-loads:
+	# For each table you want to target, list the data files to load into it...
+	TABLE_NAME_1:
+		- PATH/TO/FILE-1
+    - PATH/TO/FILE-2
+  TABLE_NAME_2:
+  	- PATH/TO/FILE-3
+  	- PATH/TO/FILE-4
