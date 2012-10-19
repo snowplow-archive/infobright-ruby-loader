@@ -41,11 +41,11 @@ module InfobrightLoader
       #
       # The configuration returned will either be
       # a LoadMapConfig or a LoadFolderConfig.
-      def Config.get_config()
+      def get_config()
 
         options = Config.parse_args()
 
-        if options[:config].nil?
+        if options[:control].nil?
 
           config = LoadFolderConfig.new
           config.processes = options[:processes]
@@ -57,18 +57,18 @@ module InfobrightLoader
 
         else
 
-          yaml = YAML.load_file(options[:config])
+          yaml = YAML.load_file(options[:control])
 
           # Set the overridable fields if they haven't been overridden at the command-line
           config = LoadMapConfig.new
           get_or_else = lambda {|x, y| x.nil? ? y : x }
-          config.processes = get_or_else.call(options[:processes], config[:load][:processes])
-          config.db = get_or_else.call(options[:db], config[:database][:name])
-          config.separator = get_or_else.call(options[:separator], config[:data_format][:separator])
-          config.encloser = get_or_else.call(options[:encloser], config[:data_format][:encloser])
+          config.processes = get_or_else.call(options[:processes], yaml[:load][:processes])
+          config.db = get_or_else.call(options[:db], yaml[:database][:name])
+          config.separator = get_or_else.call(options[:separator], yaml[:data_format][:separator])
+          config.encloser = get_or_else.call(options[:encloser], yaml[:data_format][:encloser])
 
           # Finally grab the load map
-          config.load_map = config[:data_loads]
+          config.load_map = yaml[:data_loads]
         end
 
         # Finally we can check that number of processes is a positive integer
@@ -79,10 +79,11 @@ module InfobrightLoader
 
         config # Return either our LoadFolderConfig or our LoadMapConfig
       end
+      module_function :get_config
 
       # Parse the command-line arguments
       # Returns: the hash of parsed options
-      def Config.parse_args()
+      def parse_args()
 
         # Handle command-line arguments
         options = {}
@@ -160,6 +161,7 @@ module InfobrightLoader
 
         options
       end
+      module_function :parse_args
 
     end
   end

@@ -18,6 +18,7 @@
 $LOAD_PATH.unshift File.dirname(__FILE__)
 
 require 'infobright-loader/cli/config'
+require 'infobright-loader/cli/loader'
 
 # This Ruby script is the command-line interface to the
 # Infobright Ruby Loader.

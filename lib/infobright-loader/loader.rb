@@ -15,8 +15,6 @@
 # Copyright:: Copyright (c) 2012 SnowPlow Analytics Ltd
 # License::   Apache License Version 2.0
 
-require 'infobright-loader/config'
-
 module InfobrightLoader
   module Loader
 
@@ -31,6 +29,7 @@ module InfobrightLoader
       # into a map, we can use load_from_map()
       load_from_map()
     end
+    module_function :load_from_folder
 
     # Load Infobright using a 'map' of
     # tables to filenames.
@@ -38,5 +37,7 @@ module InfobrightLoader
 
       puts "PLACEHOLDER: load_from_map()"
     end
+    module_function :load_from_map
+
   end
 end
