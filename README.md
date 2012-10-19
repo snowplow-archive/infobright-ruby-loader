@@ -26,9 +26,9 @@ The main differences between IRL and ParaFlex are as follows:
 
 To add.
 
-### As a command-line tool
+### For command-line use
 
-Install it as:
+You can install IRL like so:
 
     $ gem install infobright-loader
 
@@ -36,7 +36,9 @@ Install it as:
 
 Add this line to your application's Gemfile:
 
-    gem 'infobright-loader'
+```ruby
+gem 'infobright-loader'
+```
 
 And then execute:
 
@@ -55,7 +57,12 @@ Both modes of use are available whether you are running IRL from the command-lin
 
 ### From the command-line
 
-You can use IRL from the command-line. The usage options look like this:
+You can use IRL from the command-line:
+
+    $ bundle exec infobright-loader -v
+    infobright-loader 0.0.1
+
+The usage options look like this:
 
     Usage: infobright-loader [options]
 
@@ -81,10 +88,10 @@ In other words, you can run IRL from the command-line in two ways:
 1. With `--control` to load a set of tables from a set of files
 2. With `--db`, `--table` and `--folder` to load all the files from a specific directory into a specific table
 
-As an added bonus, if you are using a control file you can specify the asterisked parameters at the command-line
-to override the settings found in the control file.
+As an added bonus, if you are using a control file you can still specify the asterisked parameters at the
+command-line, to override the settings found in your control file.
 
-### Via its API
+### From your own application
 
 Usage instructions to come.
 
