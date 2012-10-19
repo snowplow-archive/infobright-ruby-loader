@@ -22,6 +22,18 @@ The main differences between IRL and ParaFlex are as follows:
 
 ## Installation
 
+### Overview
+
+To add.
+
+### As a command-line tool
+
+Install it as:
+
+    $ gem install infobright-loader
+
+### For use in your own application
+
 Add this line to your application's Gemfile:
 
     gem 'infobright-loader'
@@ -29,10 +41,6 @@ Add this line to your application's Gemfile:
 And then execute:
 
     $ bundle
-
-Or install it yourself as:
-
-    $ gem install infobright-loader
 
 ## Usage
 
