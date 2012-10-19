@@ -28,15 +28,31 @@ module InfobrightLoader
       # and then call the appropriate load
       def load(config)
 
-        # TODO: need to sort out arguments!
-
         if config.is_a? InfobrightLoader::Cli::Config::LoadFolderConfig
-          InfobrightLoader::Loader::load_from_folder()
+          
+          InfobrightLoader::Loader::load_from_folder(
+            config.folder,
+            config.table,
+            config.db,
+            config.processes,
+            config.separator,
+            config.encloser
+          )
+
         elsif config.is_a? InfobrightLoader::Cli::Config::LoadMapConfig
-          InfobrightLoader::Loader::load_from_map()
+          
+          InfobrightLoader::Loader::load_from_map(
+            config.load_map,
+            config.db,
+            config.processes,
+            config.separator,
+            config.encloser
+          )
+
         else
           puts ConfigError, "config argument passed to Cli::Loader::load() must be a LoadFolderConfig or a LoadMapConfig"
         end
+        
       end
       module_function :load
 

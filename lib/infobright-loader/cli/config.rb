@@ -31,11 +31,11 @@ module InfobrightLoader
 
       # Configuration for loading all the files from a specific directory into
       # a specific table
-      LoadMapConfig = Struct.new(:processes, :db, :separator, :encloser, :load_map)
+      LoadMapConfig = Struct.new(:load_map, :db, :processes, :separator, :encloser)
       
       # Configuration for loading a set of tables from a set of files (where
       # each table can have multiple files loaded into it)
-      LoadFolderConfig = Struct.new(:processes, :db, :separator, :encloser, :folder, :table)
+      LoadFolderConfig = Struct.new(:folder, :table, :db, :processes, :separator, :encloser)
 
       # Validates and returns the configuration.
       #
