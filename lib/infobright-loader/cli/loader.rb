@@ -35,7 +35,7 @@ module InfobrightLoader
         elsif config.is_a? InfobrightLoader::Cli::Config::LoadMapConfig
           InfobrightLoader::Loader::load_from_map()
         else
-          puts "ARGGGGGGGGGGGGGGGG"
+          puts ConfigError, "config argument passed to Cli::Loader::load() must be a LoadFolderConfig or a LoadMapConfig"
         end
       end
       module_function :load

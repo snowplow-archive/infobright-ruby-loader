@@ -141,8 +141,11 @@ module InfobrightLoader
           end
 
           # Check our folder exists and is not empty
+          unless File.directory?(options[:folder])
+            raise ConfigError, "Specified folder '#{options[:folder]}' not found"
+          end
           if (Dir.entries(options[:folder]) - %w{ . .. }).empty?
-            raise ConfigError, "Specified folder '#{options[:folder]}' does not exist or is empty"
+            raise ConfigError, "Specified folder '#{options[:folder]}' is empty"
           end
 
         # We are working with the control file

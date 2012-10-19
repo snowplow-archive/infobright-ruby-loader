@@ -21,19 +21,25 @@ module InfobrightLoader
     # Load a single table in Infobright
     # with the contents of a single
     # folder
-    def load_from_folder()
+    def load_from_folder(folder, table, db, processes=10, separator='|', encloser='')
 
       puts "PLACEHOLDER: load_from_folder()"
 
+      # Let's loop through and grab all the files in this folder
+      Dir["lib/**/*"].each{|s| puts s }
+      # TODO: need to remove directories from this listing
+
+      load_map = {}
+
       # Now we have converted the folder and table
       # into a map, we can use load_from_map()
-      load_from_map()
+      load_from_map(load_map, db, processes, separator, encloser)
     end
     module_function :load_from_folder
 
     # Load Infobright using a 'map' of
     # tables to filenames.
-    def load_from_map()
+    def load_from_map(load_map, db, processes=10, separator='|', encloser='')
 
       puts "PLACEHOLDER: load_from_map()"
     end
