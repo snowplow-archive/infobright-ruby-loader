@@ -97,6 +97,8 @@ Usage instructions to come.
 
 ## Hacking locally
 
+TODO: can I delete this?
+
     $ gem build infobright-loader.gemspec
     $ sudo gem install infobright-loader-0.0.1.gem
     $ bundle install
