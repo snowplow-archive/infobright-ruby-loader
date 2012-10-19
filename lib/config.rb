@@ -48,14 +48,21 @@ module Config
 
       opts.banner = "Usage: %s [options]" % SCRIPT_NAME
       opts.separator ""
-      opts.separator "Specific options:"
+      opts.separator "Specify a control file:"
 
-      opts.on('-c', '--control FILE', 'optional control file') { |config| options[:control] = config }
-      opts.on('-d', '--db NAME', 'optional database name') { |config| options[:db] = config }
-      opts.on('-t', '--table NAME', 'optional table to load data files into') { |config| options[:table] = config }
-      opts.on('-f', '--folder NAME', 'optional directory containing data files to load') { |config| options[:folder] = config }
-      opts.on('-s', '--separator CHAR', 'optional field separator (defaults to pipe bar, |)') { |config| options[:separator] = config }
-      opts.on('-e', '--encloser CHAR', 'optional field encloser (defaults to none)') { |config| options[:encloser] = config }
+      opts.on('-c', '--control FILE', 'control file') { |config| options[:control] = config }
+
+      opts.separator ""
+      opts.separator "Or load a table from a folder of data files:"
+
+      opts.on('-d', '--db NAME', 'database name *') { |config| options[:db] = config }
+      opts.on('-t', '--table NAME', 'table to load data files into') { |config| options[:table] = config }
+      opts.on('-f', '--folder DIR', 'directory containing data files to load') { |config| options[:folder] = config }
+      opts.on('-s', '--separator CHAR', 'optional field separator, defaults to pipe bar (|) *') { |config| options[:separator] = config }
+      opts.on('-e', '--encloser CHAR', 'optional field encloser, defaults to none *') { |config| options[:encloser] = config }
+
+      opts.separator ""
+      opts.separator "* overrides the same setting in control file if control file also specified"
 
       opts.separator ""
       opts.separator "Common options:"
@@ -84,6 +91,10 @@ module Config
         missing = mandatory.select{ |param| options[param].nil? }
         if not missing.empty?
           raise ConfigError, "No control file specified, so missing options: #{missing.join(', ')}\n#{optparse}"
+        end
+      else
+        unless options[:folder].nil? and options[:table].nil?
+          raise ConfigError, "Specifying a control file as well as a folder and/or table does not make sense"
         end
       end
     rescue OptionParser::InvalidOption, OptionParser::MissingArgument
