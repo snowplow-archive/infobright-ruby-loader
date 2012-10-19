@@ -83,7 +83,7 @@ module Config
         mandatory = [:db, :table, :folder, :separator, :encloser]
         missing = mandatory.select{ |param| options[param].nil? }
         if not missing.empty?
-          raise ConfigError, "No control specified, so missing options: #{missing.join(', ')}\n#{optparse}"
+          raise ConfigError, "No control file specified, so missing options: #{missing.join(', ')}\n#{optparse}"
         end
       end
     rescue OptionParser::InvalidOption, OptionParser::MissingArgument
