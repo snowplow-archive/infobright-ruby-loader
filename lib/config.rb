@@ -26,26 +26,50 @@ module Config
 
   class ConfigError < ArgumentError; end
 
-  # Return the configuration loaded from the supplied YAML file, plus
-  # the additional constants above.
+  LoadMapConfig = Struct.new(:processes, :db, :separator, :encloser, :load_map)
+  LoadFolderConfig = Struct.new(:processes, :db, :separator, :encloser, :folder, :table)
+
+  # Validates and returns the configuration.
+  #
+  # The configuration returned will either be
+  # a LoadMapConfig or a LoadFolderConfig.
   def Config.get_config()
 
     options = Config.parse_args()
 
-    unless options[:config].nil?
-      config = YAML.load_file(options[:config])
+    if options[:config].nil?
 
-      # TODO
+      config = LoadFolderConfig.new
+      config.processes = options[:processes]
+      config.db = options[:db] 
+      config.separator = options[:separator]
+      config.encloser = options[:encloser] 
+      config.folder = options[:folder] 
+      config.table = options[:table] 
+
+    else
+
+      yaml = YAML.load_file(options[:config])
 
       # Set the overridable fields if they haven't been overridden at the command-line
-      options[:processes] ||= config[:load][:processes]
-      options[:db] ||= config[:database][:name]
+      config = LoadMapConfig.new
+      get_or_else = lambda {|x, y| x.nil? ? y : x }
+      config.processes = get_or_else.call(options[:processes], config[:load][:processes])
+      config.db = get_or_else.call(options[:db], config[:database][:name])
+      config.separator = get_or_else.call(options[:separator], config[:data_format][:separator])
+      config.encloser = get_or_else.call(options[:encloser], config[:data_format][:encloser])
 
+      # Now we need to build the load map
+      # TODO
     end
 
-    # TODO
+    # Finally we can check that number of processes is a positive integer
+    unless config.processes.to_i > 0
+      raise ConfigError, "Parallel load processes '#{config.processes}' is not a positive integer"
+    end
+    config.processes = config.processes.to_i # A kitten dies, mutably.
 
-    config
+    config # Return either our LoadFolderConfig or our LoadMapConfig
   end
 
   # Parse the command-line arguments
@@ -85,44 +109,45 @@ module Config
       end
     end
 
-    # Set command-line defaults only if no control file given
-    if options[:control].nil?
-      options[:separator] ||= '|'
-      options[:encloser]  ||= ''
-      options[:processes] ||= 10
-    end
-
-    # Check the mandatory arguments
+    # Run OptionParser's structural validation
     begin
       optparse.parse!
-      
-      # If no control file given, most of the options are required
-      if options[:control].nil?
-
-        mandatory = [:db, :table, :folder, :separator, :encloser]
-        missing = mandatory.select{ |param| options[param].nil? }
-        if not missing.empty?
-          raise ConfigError, "No control file specified, so missing options: #{missing.join(', ')}\n#{optparse}"
-        end
-      else
-        unless options[:folder].nil? and options[:table].nil?
-          raise ConfigError, "Specifying a control file as well as a folder and/or table does not make sense"
-        end
-      end
     rescue OptionParser::InvalidOption, OptionParser::MissingArgument
       raise ConfigError, "#{$!.to_s}\n#{optparse}"
     end
 
-    # Check that number of processes is a positive integer
-    # TODO
+    # If no control file given, most of the options are required
+    if options[:control].nil?
 
-    # If we have a control file, check it exists, is readable and is not empty
-    # TODO
+      # Set defaults if necessary
+      options[:separator] ||= '|'
+      options[:encloser]  ||= ''
+      options[:processes] ||= '10'
 
-    # If we have a folder, check it exists...
-    unless options[:folder].nil?
-      # TODO: folder exists check?
-      raise ConfigError, "Specified folder #{options[:folder]} does not exist"
+      # First check we have all the options we need
+      mandatory = [:db, :table, :folder]
+      missing = mandatory.select{ |param| options[param].nil? }
+      if not missing.empty?
+        raise ConfigError, "No control file specified, so missing options: #{missing.join(', ')}\n#{optparse}"
+      end
+
+      # Check our folder exists and is not empty
+      if (Dir.entries(options[:folder]) - %w{ . .. }).empty?
+        raise ConfigError, "Specified folder '#{options[:folder]}' does not exist or is empty"
+      end
+
+    # We are working with the control file
+    else
+
+      # Check we don't have a conflict of purpose
+      unless options[:folder].nil? and options[:table].nil?
+        raise ConfigError, "Specifying a control file as well as a folder and table does not make sense"
+      end
+
+      # Check the control file exists, is readable and is not empty
+      unless File.file?(options[:control])
+        raise ConfigError, "Control file '#{options[:control]}' does not exist, or is not a file."
+      end
     end
 
     options

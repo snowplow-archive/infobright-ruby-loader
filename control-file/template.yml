@@ -5,13 +5,13 @@
   :processes: ADD HERE
 :database:
   :name: ADD HERE
-:data-format:
+:data_format:
   :separator: ADD HERE
   :encloser: ADD HERE
 # ... end of variables overridable at command line.
 
 # Map of tables to populate, along with files to load for each table
-:data-loads:
+:data_loads:
   # For each table, list the data files to load
   TABLE_NAME_1:
     - PATH/TO/FILE-1
