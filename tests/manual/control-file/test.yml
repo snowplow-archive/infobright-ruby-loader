@@ -1,4 +1,4 @@
-# Example control file for IRL
+# Example control file for Infobright Ruby Loader
 # All of the below can be overridden at the command line
 
 :database:
@@ -9,7 +9,7 @@
 :data-loads:
 	# For each table you want to target, list the data files to load into it...
 	TABLE_NAME_1:
-		- PATH/TO/FILE-1
+	- PATH/TO/FILE-1
     - PATH/TO/FILE-2
   TABLE_NAME_2:
   	- PATH/TO/FILE-3

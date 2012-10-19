@@ -31,7 +31,17 @@ module Config
   def Config.get_config()
 
     options = Config.parse_args()
-    config = YAML.load_file(options[:config])
+
+    unless options[:config].nil?
+      config = YAML.load_file(options[:config])
+
+      # TODO
+
+      # Set the overridable fields if they haven't been overridden at the command-line
+      options[:processes] ||= config[:load][:processes]
+      options[:db] ||= config[:database][:name]
+
+    end
 
     # TODO
 
@@ -60,9 +70,10 @@ module Config
       opts.on('-f', '--folder DIR', 'directory containing data files to load') { |config| options[:folder] = config }
       opts.on('-s', '--separator CHAR', 'optional field separator, defaults to pipe bar (|) *') { |config| options[:separator] = config }
       opts.on('-e', '--encloser CHAR', 'optional field encloser, defaults to none *') { |config| options[:encloser] = config }
+      opts.on('-p', '--processes INT', 'optional number of parallel processes to run, defaults to 10 *') { |config| options[:processes] = config }
 
       opts.separator ""
-      opts.separator "* overrides the same setting in control file if control file also specified"
+      opts.separator "* overrides the same setting in the control file if control file also specified"
 
       opts.separator ""
       opts.separator "Common options:"
@@ -78,6 +89,7 @@ module Config
     if options[:control].nil?
       options[:separator] ||= '|'
       options[:encloser]  ||= ''
+      options[:processes] ||= 10
     end
 
     # Check the mandatory arguments
@@ -100,6 +112,12 @@ module Config
     rescue OptionParser::InvalidOption, OptionParser::MissingArgument
       raise ConfigError, "#{$!.to_s}\n#{optparse}"
     end
+
+    # Check that number of processes is a positive integer
+    # TODO
+
+    # If we have a control file, check it exists, is readable and is not empty
+    # TODO
 
     # If we have a folder, check it exists...
     unless options[:folder].nil?
