@@ -26,9 +26,15 @@ module InfobrightLoader
       # What are we called?
       SCRIPT_NAME = InfobrightLoader::NAME
 
+      # For errors
       class ConfigError < ArgumentError; end
 
+      # Configuration for loading all the files from a specific directory into
+      # a specific table
       LoadMapConfig = Struct.new(:processes, :db, :separator, :encloser, :load_map)
+      
+      # Configuration for loading a set of tables from a set of files (where
+      # each table can have multiple files loaded into it)
       LoadFolderConfig = Struct.new(:processes, :db, :separator, :encloser, :folder, :table)
 
       # Validates and returns the configuration.
@@ -61,8 +67,8 @@ module InfobrightLoader
           config.separator = get_or_else.call(options[:separator], config[:data_format][:separator])
           config.encloser = get_or_else.call(options[:encloser], config[:data_format][:encloser])
 
-          # Now we need to build the load map
-          # TODO
+          # Finally grab the load map
+          config.load_map = config[:data_loads]
         end
 
         # Finally we can check that number of processes is a positive integer

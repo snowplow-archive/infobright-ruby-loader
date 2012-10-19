@@ -15,27 +15,28 @@
 # Copyright:: Copyright (c) 2012 SnowPlow Analytics Ltd
 # License::   Apache License Version 2.0
 
-$LOAD_PATH.unshift File.dirname(__FILE__)
+require 'infobright-loader/config'
 
-require 'infobright-loader/cli/config'
+module InfobrightLoader
+  module Loader
 
-# This Ruby script is the command-line interface to the
-# Infobright Ruby Loader.
-#
-begin
-  config = InfobrightLoader::Cli::Config.get_config()
-  InfobrightLoader::Cli::Loader.load(config)
+    # Load a single table in Infobright
+    # with the contents of a single
+    # folder
+    def load_from_folder()
 
-# TODO: update with InfobrightLoadExceptions
-rescue InfobrightLoader::Cli::Config::ConfigError => e
-  $stderr.puts(e.message)
-  exit 1
-rescue SystemExit => e
-  exit 1
-rescue Exception => e
-  $stderr.puts("Unexpected error: " + e.message)
-  $stderr.puts(e.backtrace.join("\n"))
-  exit 1
+      puts "PLACEHOLDER: load_from_folder()"
+
+      # Now we have converted the folder and table
+      # into a map, we can use load_from_map()
+      load_from_map()
+    end
+
+    # Load Infobright using a 'map' of
+    # tables to filenames.
+    def load_from_map()
+
+      puts "PLACEHOLDER: load_from_map()"
+    end
+  end
 end
-
-exit 0
