@@ -43,8 +43,15 @@ module InfobrightLoader
     module_function :table_exists?    
 
     # Load data
-    def load_file(file, table, db, separator, encloser)
-      # TODO
+    def load_file(file, table, db, separator='|', encloser='')
+
+      ib = locate_mysql_ib
+      load = "LOAD DATA INFILE '#{file}' " + \
+             "INTO TABLE #{table} " + \
+             "FIELDS TERMINATED BY '#{separator}' ENCLOSED BY '#{encloser}'; "
+
+      `echo "#{load}" | #{ib} -D #{db}`
+      ($?.to_i == 0)
     end
     module_function :load_file
 
