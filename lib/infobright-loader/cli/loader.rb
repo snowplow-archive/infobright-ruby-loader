@@ -28,7 +28,8 @@ module InfobrightLoader
       # and then call the appropriate load
       def load(config)
 
-        if config.is_a? InfobrightLoader::Cli::Config::LoadFolderConfig
+        case config
+        when InfobrightLoader::Cli::Config::LoadFolderConfig
           InfobrightLoader::Loader::load_from_folder(
             config.folder,
             config.table,
@@ -38,7 +39,7 @@ module InfobrightLoader
             config.encloser
           )
 
-        elsif config.is_a? InfobrightLoader::Cli::Config::LoadHashConfig
+        when InfobrightLoader::Cli::Config::LoadHashConfig
           InfobrightLoader::Loader::load_from_hash(
             config.load_map,
             config.db,

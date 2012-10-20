@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 # Copyright (c) 2012 SnowPlow Analytics Ltd. All rights reserved.
 #
 # This program is licensed to you under the Apache License Version 2.0,
@@ -15,12 +13,16 @@
 # Copyright:: Copyright (c) 2012 SnowPlow Analytics Ltd
 # License::   Apache License Version 2.0
 
+require 'infobright-loader/db'
+
 module InfobrightLoader
   module Loader
 
-    # Load a single table in Infobright
-    # with the contents of a single
-    # folder
+    # For errors
+    class LoadError < ArgumentError; end
+
+    # Load a single table in Infobright with
+    # the contents of a single folder
     def load_from_folder(folder, table, db, processes=10, separator='|', encloser='')
 
       # Let's loop through and grab all absolute paths to all the files in this folder, recursively
@@ -29,8 +31,7 @@ module InfobrightLoader
 
       # Check we have some files to load
       unless load_hash[table].any?
-        puts "No files to load in folder #{folder}" # TODO: move to Ruby logger?
-        return
+        raise LoadError, "No files to load in folder #{folder}"
       end
 
       # Now we have converted the folder and table
@@ -46,18 +47,24 @@ module InfobrightLoader
       # Check we have some tables
       t_count = load_hash.length
 
+      # Some validation about the load we're going to do
       case 
       when t_count == 0
-        puts "We have no tables to populate" # TODO: move to Ruby logger?
-        return
+        raise LoadError, "We have no tables to populate"
       when t_count < processes
         puts "We have only #{t_count} table(s) to populate, reducing processes from #{processes} to #{t_count}" # TODO: move to Ruby logger?
         processes = t_count
       end
 
-      # Check we have more tables to load than processes.
-      # TODO
+      # Now let's check MySQL server is accessible
+      unless InfobrightLoader::Db.running?
+        raise LoadError, "Default MySQL server cannot be found or is not running"
+      end
 
+      # Now let's check that we can access the database
+      unless InfobrightLoader::Db.db_exists?(db)
+        raise LoadError, "Database #{db} cannot be found or user lacks sufficient privileges"
+      end      
 
     end
     module_function :load_from_hash
