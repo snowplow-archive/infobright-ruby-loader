@@ -57,6 +57,7 @@ module InfobrightLoader
 
     private
     
+    # Get path to Infobright's mysql-ib client
     def locate_mysql_ib
       `locate mysql-ib`
     end
