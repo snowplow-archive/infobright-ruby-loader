@@ -60,7 +60,7 @@ module InfobrightLoader
           yaml = YAML.load_file(options[:control])
 
           # Set the overridable fields if they haven't been overridden at the command-line
-          config = LoadMapConfig.new
+          config = LoadHashConfig.new
           get_or_else = lambda {|x, y| x.nil? ? y : x }
           config.processes = get_or_else.call(options[:processes], yaml[:load][:processes])
           config.db = get_or_else.call(options[:db], yaml[:database][:name])
@@ -77,7 +77,7 @@ module InfobrightLoader
         end
         config.processes = config.processes.to_i # A kitten dies, mutably.
 
-        config # Return either our LoadFolderConfig or our LoadMapConfig
+        config # Return either our LoadFolderConfig or our LoadHashConfig
       end
       module_function :get_config
 
