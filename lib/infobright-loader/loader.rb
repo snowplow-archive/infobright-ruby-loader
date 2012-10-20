@@ -66,8 +66,21 @@ module InfobrightLoader
         raise LoadError, "Database #{db} cannot be found or user lacks sufficient privileges"
       end      
 
+      # Now we're ready to start with the parallel load
+      load_parallel(load_hash, db, processes, separator, encloser)
+
     end
     module_function :load_from_hash
+
+    private
+
+    # Perform a parallel load.
+    def load_parallel(load_hash, db, processes, separator, encloser)
+
+      # TODO: write this.
+
+    end
+    module_function :load_parallel
 
   end
 end
