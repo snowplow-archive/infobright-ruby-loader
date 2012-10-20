@@ -31,7 +31,7 @@ module InfobrightLoader
 
       # Configuration for loading all the files from a specific directory into
       # a specific table
-      LoadMapConfig = Struct.new(:load_map, :db, :processes, :separator, :encloser)
+      LoadHashConfig = Struct.new(:load_hash, :db, :processes, :separator, :encloser)
       
       # Configuration for loading a set of tables from a set of files (where
       # each table can have multiple files loaded into it)
@@ -68,7 +68,7 @@ module InfobrightLoader
           config.encloser = get_or_else.call(options[:encloser], yaml[:data_format][:encloser])
 
           # Finally grab the load map
-          config.load_map = yaml[:data_loads]
+          config.load_hash = yaml[:data_loads]
         end
 
         # Finally we can check that number of processes is a positive integer
@@ -148,6 +148,10 @@ module InfobrightLoader
             raise ConfigError, "Specified folder '#{options[:folder]}' is empty"
           end
 
+          # Add trailing slash if needed to the folder
+          trail = lambda {|str| return str[-1].chr != '/' ? str << '/' : str}
+          options[:folder] = trail.call(options[:folder])
+
         # We are working with the control file
         else
 
@@ -156,7 +160,7 @@ module InfobrightLoader
             raise ConfigError, "Specifying a control file as well as a folder and table does not make sense"
           end
 
-          # Check the control file exists, is readable and is not empty
+          # Check the control file exists
           unless File.file?(options[:control])
             raise ConfigError, "Control file '#{options[:control]}' does not exist, or is not a file."
           end

@@ -29,7 +29,6 @@ module InfobrightLoader
       def load(config)
 
         if config.is_a? InfobrightLoader::Cli::Config::LoadFolderConfig
-          
           InfobrightLoader::Loader::load_from_folder(
             config.folder,
             config.table,
@@ -39,9 +38,8 @@ module InfobrightLoader
             config.encloser
           )
 
-        elsif config.is_a? InfobrightLoader::Cli::Config::LoadMapConfig
-          
-          InfobrightLoader::Loader::load_from_map(
+        elsif config.is_a? InfobrightLoader::Cli::Config::LoadHashConfig
+          InfobrightLoader::Loader::load_from_hash(
             config.load_map,
             config.db,
             config.processes,
@@ -50,7 +48,7 @@ module InfobrightLoader
           )
 
         else
-          puts ConfigError, "config argument passed to Cli::Loader::load() must be a LoadFolderConfig or a LoadMapConfig"
+          puts ConfigError, "config argument passed to Cli::Loader::load() must be a LoadFolderConfig or a LoadHashConfig"
         end
         
       end

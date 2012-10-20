@@ -86,7 +86,7 @@ The usage options look like this:
 In other words, you can run IRL from the command-line in two ways:
 
 1. With `--control` to load a set of tables from a set of files
-2. With `--db`, `--table` and `--folder` to load all the files from a specific directory into a specific table
+2. With `--db`, `--table` and `--folder` to load all the files from a specific directory into a specific database table
 
 As an added bonus, if you are using a control file you can still specify the asterisked parameters at the
 command-line, to override the settings found in your control file.
@@ -94,14 +94,6 @@ command-line, to override the settings found in your control file.
 ### From your own application
 
 Usage instructions to come.
-
-## Hacking locally
-
-TODO: can I delete this?
-
-    $ gem build infobright-loader.gemspec
-    $ sudo gem install infobright-loader-0.0.1.gem
-    $ bundle install
 
 ## Contributing
 

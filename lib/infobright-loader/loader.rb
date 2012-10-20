@@ -23,27 +23,44 @@ module InfobrightLoader
     # folder
     def load_from_folder(folder, table, db, processes=10, separator='|', encloser='')
 
-      puts "PLACEHOLDER: load_from_folder()"
+      # Let's loop through and grab all absolute paths to all the files in this folder, recursively
+      load_hash = {}
+      load_hash[table] = Dir["#{folder}**/*"].find_all{|f| File.file?(f)}.map{|f| File.expand_path(f)}
 
-      # Let's loop through and grab all the files in this folder
-      Dir["lib/**/*"].each{|s| puts s }
-      # TODO: need to remove directories from this listing
-
-      load_map = {}
+      # Check we have some files to load
+      unless load_hash[table].any?
+        puts "No files to load in folder #{folder}" # TODO: move to Ruby logger?
+        return
+      end
 
       # Now we have converted the folder and table
       # into a map, we can use load_from_map()
-      load_from_map(load_map, db, processes, separator, encloser)
+      load_from_hash(load_hash, db, processes, separator, encloser)
     end
     module_function :load_from_folder
 
-    # Load Infobright using a 'map' of
+    # Load Infobright using a hash of
     # tables to filenames.
-    def load_from_map(load_map, db, processes=10, separator='|', encloser='')
+    def load_from_hash(load_hash, db, processes=10, separator='|', encloser='')
 
-      puts "PLACEHOLDER: load_from_map()"
+      # Check we have some tables
+      t_count = load_hash.length
+
+      case 
+      when t_count == 0
+        puts "We have no tables to populate" # TODO: move to Ruby logger?
+        return
+      when t_count < processes
+        puts "We have only #{t_count} table(s) to populate, reducing processes from #{processes} to #{t_count}" # TODO: move to Ruby logger?
+        processes = t_count
+      end
+
+      # Check we have more tables to load than processes.
+      # TODO
+
+
     end
-    module_function :load_from_map
+    module_function :load_from_hash
 
   end
 end
