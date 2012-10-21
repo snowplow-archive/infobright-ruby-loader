@@ -119,7 +119,7 @@ module InfobrightLoader
           opts.separator "Specify a control file:"
 
           opts.on('-c', '--control FILE', 'control file') { |config| options[:control] = config }
-          opts.on('-x', '--processes INT', 'optional number of parallel processes to run, overriding setting in control file') { |config| options[:processes] = config }
+          opts.on('-x', '--processes INT', 'optional number of parallel processes to run *') { |config| options[:processes] = config }
 
           opts.separator ""
           opts.separator "Or load a table from a folder of data files:"

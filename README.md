@@ -63,20 +63,24 @@ You can use IRL from the command-line:
     $ bundle exec infobright-loader -v
     infobright-loader 0.0.1
 
+#### Usage options
+
 The usage options look like this:
 
-    Usage: infobright-loader [options]
+Usage: infobright-loader [options]
 
     Specify a control file:
         -c, --control FILE               control file
+        -x, --processes INT              optional number of parallel processes to run *
 
     Or load a table from a folder of data files:
         -d, --db NAME                    database name *
+        -u, --username NAME              database username *
+        -p, --password NAME              database password *
         -t, --table NAME                 table to load data files into
         -f, --folder DIR                 directory containing data files to load
         -s, --separator CHAR             optional field separator, defaults to pipe bar (|) *
         -e, --encloser CHAR              optional field encloser, defaults to none *
-        -p, --processes NUM              how many parallel processes to use, defaults to 10 * 
 
     * overrides the same setting in the control file if control file also specified
 
@@ -86,15 +90,68 @@ The usage options look like this:
 
 In other words, you can run IRL from the command-line in two ways:
 
-1. With `--control` to load a set of tables from a set of files
-2. With `--db`, `--table` and `--folder` to load all the files from a specific directory into a specific database table
+1. With `--control` specifying a control file containing a list of tables to load, each with a list of files
+2. With `--db`, `--table` and `--folder` to load all the files from a specific directory into a single database table
 
 As an added bonus, if you are using a control file you can still specify the asterisked parameters at the
 command-line, to override the settings found in your control file.
 
+#### Control file format
+
+You can find a template control file in the repository as [`control-file/template.yml`] [control-file]. Its contents
+is as follows:
+
+```yaml
+# Example control file for Infobright Ruby Loader
+
+# Can be overridden at the command line...
+:load:
+  :processes: ADD HERE
+:database:
+  :name: ADD HERE
+  :username: ADD HERE # Or leave blank to default to the user running the script
+  :password: ADD HERE # Or leave blank if no password
+:data_format:
+  :separator: ADD HERE
+  :encloser: ADD HERE # Or leave blank if no encloser
+# ... end of variables overridable at command line.
+
+# Map of tables to populate, along with files to load for each table
+:data_loads:
+  # For each table, list the data files to load
+  TABLE_NAME_1:
+    - PATH/TO/FILE-1
+    - PATH/TO/FILE-2
+  TABLE_NAME_2:
+    - PATH/TO/FILE-3
+    - PATH/TO/FILE-4
+```
+
 ### From your own application
 
-Usage instructions to come.
+Using IRL from your own Ruby application (e.g. an ETL process) is quite straightforward.
+
+First require the necessary file:
+
+```ruby
+require 'infobright-loader/loader'
+```
+
+Now populate a `DbConfig` struct:
+
+```ruby
+db = InfobrightLoader::Db::DbConfig.new('my-db', 'my-db-user', nil) # No password
+```
+
+And now you're ready to load either a single table or a hash of tables:
+
+#### Load a single table
+
+Rest of section to come.
+
+#### Load a hash of tables
+
+Rest of section to come.
 
 ## Contributing
 
@@ -120,4 +177,5 @@ limitations under the License.
 [ice]: http://www.infobright.org/
 [paraflex]: http://www.infobright.org/Blog/Entry/unscripted/
 [snowplow-repo]: https://github.com/snowplow/snowplow
+[control-file]: https://github.com/snowplow/infobright-ruby-loader/blob/master/control-file/template.yml
 [license]: http://www.apache.org/licenses/LICENSE-2.0
