@@ -57,13 +57,13 @@ module InfobrightLoader
       end
 
       # Now let's check MySQL server is accessible
-      unless InfobrightLoader::Db.running?
+      unless InfobrightLoader::Db.running?(db)
         raise LoadError, "Default MySQL server cannot be found or is not running"
       end
 
       # Now let's check that we can access the database
       unless InfobrightLoader::Db.db_exists?(db)
-        raise LoadError, "Database #{db} cannot be found or user lacks sufficient privileges"
+        raise LoadError, "Database #{db.name} cannot be found or user lacks sufficient privileges"
       end      
 
       # Now we're ready to start with the parallel load
@@ -78,6 +78,10 @@ module InfobrightLoader
     def load_parallel(load_hash, db, processes, separator, encloser)
 
       # TODO: write this.
+      load_hash['a'].each { |f|
+        puts "Loading file #{f} into table #{db.name}.FIX ME"
+        InfobrightLoader::Db.load_file(f, 'a', db, separator, encloser)
+      }
 
     end
     module_function :load_parallel

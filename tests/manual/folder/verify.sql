@@ -1,2 +1,2 @@
-use irl_test;
+use irl_tests;
 select * from a;

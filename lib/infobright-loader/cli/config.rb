@@ -17,6 +17,8 @@ require 'optparse'
 require 'date'
 require 'yaml'
 
+require 'infobright-loader/db'
+
 # Config module to hold functions related to CLI argument parsing
 # and config file reading to support the daily ETL job.
 module InfobrightLoader
@@ -49,7 +51,7 @@ module InfobrightLoader
 
           config = LoadFolderConfig.new
           config.processes = options[:processes]
-          config.db = options[:db] 
+          config.db = InfobrightLoader::Db::DbConfig.new(options[:db], options[:username], options[:password]) 
           config.separator = options[:separator]
           config.encloser = options[:encloser] 
           config.folder = options[:folder] 
@@ -63,9 +65,13 @@ module InfobrightLoader
           config = LoadHashConfig.new
           get_or_else = lambda {|x, y| x.nil? ? y : x }
           config.processes = get_or_else.call(options[:processes], yaml[:load][:processes])
-          config.db = get_or_else.call(options[:db], yaml[:database][:name])
           config.separator = get_or_else.call(options[:separator], yaml[:data_format][:separator])
           config.encloser = get_or_else.call(options[:encloser], yaml[:data_format][:encloser])
+
+          db_name = get_or_else.call(options[:db], yaml[:database][:name])
+          db_username = get_or_else.call(options[:username], yaml[:database][:username])
+          db_password = get_or_else.call(options[:password], yaml[:database][:password])
+          config.db = InfobrightLoader::Db::DbConfig.new(db_name, db_username, db_password)
 
           # Finally grab the load map
           config.load_hash = yaml[:data_loads]
@@ -99,11 +105,14 @@ module InfobrightLoader
           opts.separator "Or load a table from a folder of data files:"
 
           opts.on('-d', '--db NAME', 'database name *') { |config| options[:db] = config }
+          opts.on('-u', '--username NAME', 'database username *') { |config| options[:username] = config }
+          opts.on('-p', '--password NAME', 'database password *') { |config| options[:password] = config }
+
           opts.on('-t', '--table NAME', 'table to load data files into') { |config| options[:table] = config }
           opts.on('-f', '--folder DIR', 'directory containing data files to load') { |config| options[:folder] = config }
           opts.on('-s', '--separator CHAR', 'optional field separator, defaults to pipe bar (|) *') { |config| options[:separator] = config }
           opts.on('-e', '--encloser CHAR', 'optional field encloser, defaults to none *') { |config| options[:encloser] = config }
-          opts.on('-p', '--processes INT', 'optional number of parallel processes to run, defaults to 10 *') { |config| options[:processes] = config }
+          opts.on('-x', '--processes INT', 'optional number of parallel processes to run, defaults to 10 *') { |config| options[:processes] = config }
 
           opts.separator ""
           opts.separator "* overrides the same setting in the control file if control file also specified"

@@ -16,7 +16,8 @@ IRL can be used in two ways:
 The main differences between IRL and ParaFlex are as follows:
 
 1. IRL can be integrated into Ruby apps (see above)
-2. IRL allows you to specify the data delimiter and encloser
+2. IRL lets you specify the Infobright username and/or password
+2. IRL lets you specify the data delimiter and encloser
 3. IRL allows multiple loads to the same table - it just runs them in series, not in parallel
 4. IRL can be fed a directory of files, as well as a file list
 

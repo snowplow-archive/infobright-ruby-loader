@@ -24,15 +24,14 @@ else
     PASSWORD=$2
 fi
 
-SQL=`locate mysql-ib`
-
 echo "Running folder-based test..."
+SQL=`locate mysql-ib`
 
 echo "Setting up Infobright"
 cat setup.sql | ${SQL} -u ${USERNAME} --password=${PASSWORD}
 
 echo "Running Infobright Ruby Loader"
-# TODO
+bundle exec infobright-loader -d irl_tests -s \| -e \" -u ${USERNAME} -p ${PASSWORD} -t a -f a/
 
 echo "Verifying the load into Infobright - please visually inspect:"
 cat verify.sql | ${SQL} -u ${USERNAME} --password=${PASSWORD}
