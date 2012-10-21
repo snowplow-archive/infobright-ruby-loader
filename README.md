@@ -67,8 +67,8 @@ You can use IRL from the command-line:
 
 The usage options look like this:
 
-Usage: infobright-loader [options]
-
+    Usage: infobright-loader [options]
+    
     Specify a control file:
         -c, --control FILE               control file
         -x, --processes INT              optional number of parallel processes to run *
