@@ -149,6 +149,20 @@ And now you're ready to load either a single table or a hash of tables:
 
 Rest of section to come.
 
+Loading a single table from a folder is quite straightforward:
+
+```ruby
+InfobrightLoader::Loader::load_from_folder(
+  '/data/snowplow/etl-fla/latest',
+  'snowplow_events',
+  db,
+  '/t',
+  ''
+)
+```ruby
+
+Note that the last two arguments are optional - they default to pipe bar (|) and empty () respectively.
+
 #### Load a hash of tables
 
 Rest of section to come.

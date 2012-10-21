@@ -25,7 +25,7 @@ module InfobrightLoader
 
     # Load a single table in Infobright with
     # the contents of a single folder
-    def load_from_folder(folder, table, db, processes=10, separator='|', encloser='')
+    def load_from_folder(folder, table, db, separator='|', encloser='')
 
       # Let's loop through and grab all absolute paths to all the files in this folder, recursively
       load_hash = {}
@@ -38,7 +38,7 @@ module InfobrightLoader
 
       # Now we have converted the folder and table
       # into a map, we can use load_from_map()
-      load_from_hash(load_hash, db, processes, separator, encloser)
+      load_from_hash(load_hash, db, 1, separator, encloser)
     end
     module_function :load_from_folder
 

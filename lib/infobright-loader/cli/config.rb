@@ -37,7 +37,7 @@ module InfobrightLoader
       
       # Configuration for loading a set of tables from a set of files (where
       # each table can have multiple files loaded into it)
-      LoadFolderConfig = Struct.new(:folder, :table, :db, :processes, :separator, :encloser)
+      LoadFolderConfig = Struct.new(:folder, :table, :db, :separator, :encloser)
 
       # Validates and returns the configuration.
       #
@@ -50,7 +50,6 @@ module InfobrightLoader
         if options[:control].nil?
 
           config = LoadFolderConfig.new
-          config.processes = options[:processes]
           config.db = InfobrightLoader::Db::DbConfig.new(options[:db], options[:username], options[:password]) 
           config.separator = options[:separator]
           config.encloser = options[:encloser] 
@@ -87,20 +86,18 @@ module InfobrightLoader
             raise ConfigError, "Separator not specified - have you escaped ('\\') it in your control file?"
           end      
 
+          # Check that number of processes is a positive integer
+          unless config.processes.to_i > 0
+            raise ConfigError, "Parallel load processes '#{config.processes}' is not a positive integer"
+          end
+          config.processes = config.processes.to_i # A kitten dies, mutably.
+
           # Check that we have some tables to load
           if config.load_hash.nil? or config.load_hash.empty?
             raise ConfigError, "Must specify at least one table to load"
           end
 
         end
-
-        # Finally we can check that number of processes is a positive integer
-        unless config.processes.to_i > 0
-          raise ConfigError, "Parallel load processes '#{config.processes}' is not a positive integer"
-        end
-        config.processes = config.processes.to_i # A kitten dies, mutably.
-
-
 
         config # Return either our LoadFolderConfig or our LoadHashConfig
       end
@@ -159,7 +156,6 @@ module InfobrightLoader
           # Set defaults if necessary
           options[:separator] ||= '|'
           options[:encloser]  ||= ''
-          options[:processes]  ||= '1'
 
           # First check we have all the options we need
           mandatory = [:db, :table, :folder]
@@ -177,8 +173,7 @@ module InfobrightLoader
           end
 
           # Check user didn't try to override processes
-          unless options[:processes] == '1'
-            puts options[:processes]
+          unless options[:processes].nil?
             raise ConfigError, "Limited to one process when loading only one table"
           end
 

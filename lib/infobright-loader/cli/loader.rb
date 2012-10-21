@@ -34,7 +34,6 @@ module InfobrightLoader
             config.folder,
             config.table,
             config.db,
-            config.processes,
             config.separator,
             config.encloser
           )
