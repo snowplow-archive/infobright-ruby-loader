@@ -159,7 +159,7 @@ InfobrightLoader::Loader::load_from_folder(
   '/t',
   ''
 )
-```ruby
+```
 
 Note that the last two arguments are optional - they default to pipe bar (|) and empty () respectively.
 
