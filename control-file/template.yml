@@ -5,9 +5,11 @@
   :processes: ADD HERE
 :database:
   :name: ADD HERE
+  :username: ADD HERE # Or leave blank to default to the user running the script
+  :password: ADD HERE # Or leave blank if no password
 :data_format:
   :separator: ADD HERE
-  :encloser: ADD HERE
+  :encloser: ADD HERE # Or leave blank if no encloser
 # ... end of variables overridable at command line.
 
 # Map of tables to populate, along with files to load for each table
