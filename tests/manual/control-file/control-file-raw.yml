@@ -1,23 +1,51 @@
-# Example control file for Infobright Ruby Loader
+# Control file for Infobright Ruby Loader control file test
+#
+# Is processed with sed to finalise <<x>> variables before
+# the test is run
 
-# Can be overridden at the command line...
 :load:
-  :processes: ADD HERE
+  :processes: 10 # Will be reduced by IRL to 5 (as 5 tables only being loaded)
 :database:
-  :name: ADD HERE
-  :username: ADD HERE # Or leave blank to default to the user running the script
-  :password: ADD HERE # Or leave blank if no password
+  :name: incorrect # Will override at the command line to irl_tests
+  :username: <<USERNAME>>
+  :password: <<PASSWORD>>
 :data_format:
-  :separator: ADD HERE
-  :encloser: ADD HERE # Or leave blank if no encloser
-# ... end of variables overridable at command line.
+  :separator: |
+  :encloser: ' # Will override at the command line to "
 
-# Map of tables to populate, along with files to load for each table
 :data_loads:
-  # For each table, list the data files to load
-  TABLE_NAME_1:
-    - PATH/TO/FILE-1
-    - PATH/TO/FILE-2
-  TABLE_NAME_2:
-    - PATH/TO/FILE-3
-    - PATH/TO/FILE-4
+  b:
+    - <<PATH>>/data/b/b_1.txt
+    - <<PATH>>/data/b/b_1.txt
+    - <<PATH>>/data/b/b_1.txt
+    - <<PATH>>/data/b/b_1.txt
+    - <<PATH>>/data/b/b_1.txt
+    - <<PATH>>/data/b/b_1.txt
+  c:
+    - <<PATH>>/data/c/c_1.txt
+    - <<PATH>>/data/c/c_1.txt
+    - <<PATH>>/data/c/c_1.txt
+    - <<PATH>>/data/c/c_1.txt
+    - <<PATH>>/data/c/c_1.txt
+    - <<PATH>>/data/c/c_1.txt
+  d:
+    - <<PATH>>/data/d/d_1.txt
+    - <<PATH>>/data/d/d_1.txt
+    - <<PATH>>/data/d/d_1.txt
+    - <<PATH>>/data/d/d_1.txt
+    - <<PATH>>/data/d/d_1.txt
+    - <<PATH>>/data/d/d_1.txt
+  e:
+    - <<PATH>>/data/e/e_1.txt
+    - <<PATH>>/data/e/e_1.txt
+    - <<PATH>>/data/e/e_1.txt
+    - <<PATH>>/data/e/e_1.txt
+    - <<PATH>>/data/e/e_1.txt
+    - <<PATH>>/data/e/e_1.txt
+  f:
+    - <<PATH>>/data/f/f_1.txt
+    - <<PATH>>/data/f/f_1.txt
+    - <<PATH>>/data/f/f_1.txt
+    - <<PATH>>/data/f/f_1.txt
+    - <<PATH>>/data/f/f_1.txt
+    - <<PATH>>/data/f/f_1.txt
