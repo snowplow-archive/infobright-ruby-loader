@@ -187,8 +187,8 @@ InfobrightLoader::Loader::load_from_hash(
 
 The last three arguments are optional:
 
-* Number of processes defaults to 10 or the number of tables to populate, whichever is lower
-* The field separator defaults to the pipe bar (|)
+* Number of processes defaults to `10` or the number of tables to populate, whichever is lower
+* The field separator defaults to the pipe bar (`|`)
 * The field encloser defaults to empty ()
 
 ## Roadmap
