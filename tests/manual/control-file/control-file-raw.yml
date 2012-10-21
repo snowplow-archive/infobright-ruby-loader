@@ -6,7 +6,7 @@
 :load:
   :processes: 3 # Test with 3 processes populating 5 tables
 :database:
-  :name: incorrect # Will override at the command line to irl_tests
+  :name: wrong # Will override at the command line to irl_tests
   :username: <<USERNAME>>
   :password: <<PASSWORD>>
 :data_format:
@@ -44,7 +44,7 @@
   f:
     - <<PATH>>/data/f/f_1.txt
     - <<PATH>>/data/f/f_2.txt
-    - <<PATH>>/data/f/f_2.txt
     - <<PATH>>/data/f/f_3.txt
+    - <<PATH>>/data/f/f_4.txt
     - <<PATH>>/data/f/f_5.txt
     - <<PATH>>/data/f/f_6.txt

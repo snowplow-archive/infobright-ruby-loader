@@ -73,8 +73,8 @@ module InfobrightLoader
         table, files = load_hash.first
         load_table(files, table, db, separator, encloser)
       else
-        # load_parallel(load_hash, db, processes, separator, encloser)
-        load_serial(load_hash, db, separator, encloser)
+        load_parallel(load_hash, db, processes, separator, encloser)
+        # load_serial(load_hash, db, separator, encloser) for debugging without worrying about threads.
       end
 
     end
