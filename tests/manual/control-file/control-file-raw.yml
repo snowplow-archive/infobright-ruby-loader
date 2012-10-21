@@ -1,0 +1,23 @@
+# Example control file for Infobright Ruby Loader
+
+# Can be overridden at the command line...
+:load:
+  :processes: ADD HERE
+:database:
+  :name: ADD HERE
+  :username: ADD HERE # Or leave blank to default to the user running the script
+  :password: ADD HERE # Or leave blank if no password
+:data_format:
+  :separator: ADD HERE
+  :encloser: ADD HERE # Or leave blank if no encloser
+# ... end of variables overridable at command line.
+
+# Map of tables to populate, along with files to load for each table
+:data_loads:
+  # For each table, list the data files to load
+  TABLE_NAME_1:
+    - PATH/TO/FILE-1
+    - PATH/TO/FILE-2
+  TABLE_NAME_2:
+    - PATH/TO/FILE-3
+    - PATH/TO/FILE-4

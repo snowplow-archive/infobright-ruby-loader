@@ -31,7 +31,7 @@ echo "Setting up Infobright"
 cat setup.sql | ${SQL} -u ${USERNAME} --password=${PASSWORD}
 
 echo "Running Infobright Ruby Loader"
-bundle exec infobright-loader -d irl_tests -s \| -e \" -u ${USERNAME} -p ${PASSWORD} -t a -f a/
+bundle exec infobright-loader -d irl_tests -s \| -e \" -u ${USERNAME} -p ${PASSWORD} -t a -f data/a
 
 echo "Verifying the load into Infobright - please visually inspect:"
 cat verify.sql | ${SQL} -u ${USERNAME} --password=${PASSWORD}
