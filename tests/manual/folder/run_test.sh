@@ -30,8 +30,8 @@ SQL=`locate mysql-ib`
 echo "Setting up Infobright"
 cat setup.sql | ${SQL} -u ${USERNAME} --password=${PASSWORD}
 
-echo "Running Infobright Ruby Loader"
-bundle exec infobright-loader -d irl_tests -s \| -e \" -u ${USERNAME} -p ${PASSWORD} -t a -f data/a
+echo "Running Infobright Ruby Loader in folder mode"
+bundle exec infobright-loader -d irl_tests -e \" -u ${USERNAME} -p ${PASSWORD} -t a -f data/a
 
 echo "Verifying the load into Infobright - please visually inspect:"
 cat verify.sql | ${SQL} -u ${USERNAME} --password=${PASSWORD}

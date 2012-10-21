@@ -75,6 +75,12 @@ module InfobrightLoader
 
           # Finally grab the load map
           config.load_hash = yaml[:data_loads]
+
+          # Check that we have some tables to load
+          if config.load_hash.nil? or config.load_hash.empty?
+            raise ConfigError, "Must specify at least one table to load"
+          end
+
         end
 
         # Finally we can check that number of processes is a positive integer
@@ -82,6 +88,8 @@ module InfobrightLoader
           raise ConfigError, "Parallel load processes '#{config.processes}' is not a positive integer"
         end
         config.processes = config.processes.to_i # A kitten dies, mutably.
+
+
 
         config # Return either our LoadFolderConfig or our LoadHashConfig
       end
@@ -100,6 +108,7 @@ module InfobrightLoader
           opts.separator "Specify a control file:"
 
           opts.on('-c', '--control FILE', 'control file') { |config| options[:control] = config }
+          opts.on('-x', '--processes INT', 'optional number of parallel processes to run, overriding setting in control file') { |config| options[:processes] = config }
 
           opts.separator ""
           opts.separator "Or load a table from a folder of data files:"
@@ -112,7 +121,6 @@ module InfobrightLoader
           opts.on('-f', '--folder DIR', 'directory containing data files to load') { |config| options[:folder] = config }
           opts.on('-s', '--separator CHAR', 'optional field separator, defaults to pipe bar (|) *') { |config| options[:separator] = config }
           opts.on('-e', '--encloser CHAR', 'optional field encloser, defaults to none *') { |config| options[:encloser] = config }
-          opts.on('-x', '--processes INT', 'optional number of parallel processes to run, defaults to 10 *') { |config| options[:processes] = config }
 
           opts.separator ""
           opts.separator "* overrides the same setting in the control file if control file also specified"
@@ -140,7 +148,7 @@ module InfobrightLoader
           # Set defaults if necessary
           options[:separator] ||= '|'
           options[:encloser]  ||= ''
-          options[:processes] ||= '10'
+          options[:processes]  ||= '1'
 
           # First check we have all the options we need
           mandatory = [:db, :table, :folder]
@@ -155,6 +163,12 @@ module InfobrightLoader
           end
           if (Dir.entries(options[:folder]) - %w{ . .. }).empty?
             raise ConfigError, "Specified folder '#{options[:folder]}' is empty"
+          end
+
+          # Check user didn't try to override processes
+          unless options[:processes] == '1'
+            puts options[:processes]
+            raise ConfigError, "Limited to one process when loading only one table"
           end
 
           # Add trailing slash if needed to the folder

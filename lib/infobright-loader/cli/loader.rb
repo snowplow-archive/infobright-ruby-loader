@@ -41,7 +41,7 @@ module InfobrightLoader
 
         when InfobrightLoader::Cli::Config::LoadHashConfig
           InfobrightLoader::Loader::load_from_hash(
-            config.load_map,
+            config.load_hash,
             config.db,
             config.processes,
             config.separator,

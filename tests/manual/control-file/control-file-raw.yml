@@ -11,8 +11,7 @@
   :password: <<PASSWORD>>
 :data_format:
   :separator: |
-  :encloser: ' # Will override at the command line to "
-
+  :encloser: \' # Will override at the command line to "
 :data_loads:
   b:
     - <<PATH>>/data/b/b_1.txt

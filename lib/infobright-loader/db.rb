@@ -49,7 +49,7 @@ module InfobrightLoader
     # Load data
     def load_file(file, table, db, separator='|', encloser='')
 
-      # Have to escape the seperator and encloser if either is " or '
+      # Make sure seperator and encloser are escaped if either is " or '
       escaper = lambda { |c| (c == '"' || c == "'") ? "\\" + c : c }
       separator = escaper.call(separator)
       encloser = escaper.call(encloser)
