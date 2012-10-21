@@ -173,7 +173,7 @@ load_hash[conversions] = ['/tmp/convs-1', '/tmp/convs-2', '/tmp/convs-4', '/tmp/
 load_hash[bids] = ['/tmp/bids-1', '/tmp/bids-2', '/tmp/bids-4', '/tmp/bids-4']
 ```
 
-Now we can load all of the tables in parallel:
+Now we can run a parallel load of the tables:
 
 ```ruby
 InfobrightLoader::Loader::load_from_hash(
