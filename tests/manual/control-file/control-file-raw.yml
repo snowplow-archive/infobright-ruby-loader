@@ -4,7 +4,7 @@
 # the test is run
 
 :load:
-  :processes: 10 # Will be reduced by IRL to 5 (as 5 tables only being loaded)
+  :processes: 3 # Test with 3 processes populating 5 tables
 :database:
   :name: incorrect # Will override at the command line to irl_tests
   :username: <<USERNAME>>
