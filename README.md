@@ -147,25 +147,49 @@ And now you're ready to load either a single table or a hash of tables:
 
 #### Load a single table
 
-Rest of section to come.
-
 Loading a single table from a folder is quite straightforward:
 
 ```ruby
 InfobrightLoader::Loader::load_from_folder(
-  '/data/snowplow/etl-fla/latest',
-  'snowplow_events',
-  db,
-  '/t',
-  ''
+  '/data/snowplow/etl-fla/latest', # folder
+  'snowplow_events',               # table
+  db,                              # database config
+  '/t',                            # field separator
+  ''                               # field encloser
 )
 ```
 
-Note that the last two arguments are optional - they default to pipe bar (|) and empty () respectively.
+Note that the last two arguments are optional - they default to the pipe bar (|) and empty () respectively.
 
 #### Load a hash of tables
 
-Rest of section to come.
+To load a hash of tables, let's first create the hash:
+
+```ruby
+load_hash = {}
+load_hash[impressions] = ['/tmp/imps-1', '/tmp/imps-2', '/tmp/imps-3']
+load_hash[clicks] = ['/tmp/clicks-1', '/tmp/clicks-2']
+load_hash[conversions] = ['/tmp/convs-1', '/tmp/convs-2', '/tmp/convs-4', '/tmp/convs-4']
+load_hash[bids] = ['/tmp/bids-1', '/tmp/bids-2', '/tmp/bids-4', '/tmp/bids-4']
+```
+
+Now we can load all of the tables in parallel:
+
+```ruby
+InfobrightLoader::Loader::load_from_hash(
+  load_hash, # hash of tables to load into
+  db,        # database config
+  3,         # number of table loads to run in parallel (using Ruby threads)
+  '/t',      # field separator
+  ''         # field encloser
+)
+```
+
+The last three arguments are optional:
+
+* Number of processes defaults to 10 or the number of tables to populate, whichever is lower
+* The field separator defaults to the pipe bar (|)
+* The field encloser defaults to empty ()
 
 ## Contributing
 
