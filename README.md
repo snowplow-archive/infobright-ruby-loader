@@ -191,6 +191,12 @@ The last three arguments are optional:
 * The field separator defaults to the pipe bar (|)
 * The field encloser defaults to empty ()
 
+## Roadmap
+
+* Add error handling for when individual file loads fail
+* Move tests into Rspec or Cucumber from Bash
+* Add metrics so load time can be reported
+
 ## Contributing
 
 1. Fork it
