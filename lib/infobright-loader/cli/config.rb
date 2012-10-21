@@ -76,6 +76,17 @@ module InfobrightLoader
           # Finally grab the load map
           config.load_hash = yaml[:data_loads]
 
+          # Check we have everything now
+          if db_name.nil?
+            raise ConfigError, "Database name not specified"
+          end
+          if config.processes.nil?
+            raise ConfigError, "Number of processes not specified"
+          end
+          if config.separator.nil? or config.separator.empty?
+            raise ConfigError, "Separator not specified - have you escaped ('\\') it in your control file?"
+          end      
+
           # Check that we have some tables to load
           if config.load_hash.nil? or config.load_hash.empty?
             raise ConfigError, "Must specify at least one table to load"

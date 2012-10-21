@@ -13,6 +13,8 @@
 # Copyright:: Copyright (c) 2012 SnowPlow Analytics Ltd
 # License::   Apache License Version 2.0
 
+require 'thread'
+
 require 'infobright-loader/db'
 
 module InfobrightLoader
@@ -66,23 +68,80 @@ module InfobrightLoader
         raise LoadError, "Database #{db.name} cannot be found or user lacks sufficient privileges"
       end      
 
-      # Now we're ready to start with the parallel load
-      load_parallel(load_hash, db, processes, separator, encloser)
+      # Now we're ready to start with the load - either parallel or serial
+      if t_count == 1
+        table, files = load_hash.first
+        load_table(files, table, db, separator, encloser)
+      else
+        # load_parallel(load_hash, db, processes, separator, encloser)
+        load_serial(load_hash, db, separator, encloser)
+      end
 
     end
     module_function :load_from_hash
 
     private
 
-    # Perform a parallel load.
+    # Load a single table
+    def load_table(files, table, db, separator, encloser)
+
+      files.each { |f|
+        puts "Loading file #{f} into table #{db.name}.#{table}"
+        InfobrightLoader::Db.load_file(f, table, db, separator, encloser)
+      }
+    end
+    module_function :load_table
+
+    # Perform a serial load
+    # Only used for debugging
+    def load_serial(load_hash, db, separator, encloser)
+
+      load_hash.keys.each { |k|
+        load_table(load_hash[k], k, db, separator, encloser)
+      }
+    end
+    module_function :load_serial
+
+    # Perform a parallel load
     def load_parallel(load_hash, db, processes, separator, encloser)
 
-      # TODO: write this.
-      load_hash['a'].each { |f|
-        puts "Loading file #{f} into table #{db.name}.FIX ME"
-        InfobrightLoader::Db.load_file(f, 'a', db, separator, encloser)
-      }
+      tables_to_load = load_hash.keys
+      table = nil
+      threads = []
+      complete = false
+      mutex = Mutex.new
 
+      # If an exception is thrown in a thread that isn't handled, die quickly
+      Thread.abort_on_exception = true
+
+      # Create Ruby threads to concurrently execute Infobright loads
+      for i in (0...processes)
+        
+        # Each thread pops a table off the tables_to_load array, and loads files into it.
+        # We loop until there are no more tables to populate.
+        threads << Thread.new do
+          loop do
+
+            # Critical section
+            # Only allow one thread to modify the array at any time
+            mutex.synchronize do
+              if tables_to_load.length == 0
+                complete = true
+              end
+              table = tables_to_load.pop
+            end
+
+            # Let's quit if we have no table to load
+            break if complete # Exit the thread
+
+            # Otherwise let's run through and do all the loads for this table
+            load_table(load_hash[table], table, db, separator, encloser)
+          end
+        end
+      end
+
+      # Wait for threads to finish
+      threads.each { |aThread|  aThread.join }
     end
     module_function :load_parallel
 

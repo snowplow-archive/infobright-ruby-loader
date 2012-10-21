@@ -10,41 +10,41 @@
   :username: <<USERNAME>>
   :password: <<PASSWORD>>
 :data_format:
-  :separator: |
+  :separator: \|
   :encloser: \' # Will override at the command line to "
 :data_loads:
   b:
     - <<PATH>>/data/b/b_1.txt
-    - <<PATH>>/data/b/b_1.txt
-    - <<PATH>>/data/b/b_1.txt
-    - <<PATH>>/data/b/b_1.txt
-    - <<PATH>>/data/b/b_1.txt
-    - <<PATH>>/data/b/b_1.txt
+    - <<PATH>>/data/b/b_2.txt
+    - <<PATH>>/data/b/b_3.txt
+    - <<PATH>>/data/b/b_4.txt
+    - <<PATH>>/data/b/b_5.txt
+    - <<PATH>>/data/b/b_6.txt
   c:
     - <<PATH>>/data/c/c_1.txt
-    - <<PATH>>/data/c/c_1.txt
-    - <<PATH>>/data/c/c_1.txt
-    - <<PATH>>/data/c/c_1.txt
-    - <<PATH>>/data/c/c_1.txt
-    - <<PATH>>/data/c/c_1.txt
+    - <<PATH>>/data/c/c_2.txt
+    - <<PATH>>/data/c/c_3.txt
+    - <<PATH>>/data/c/c_4.txt
+    - <<PATH>>/data/c/c_5.txt
+    - <<PATH>>/data/c/c_6.txt
   d:
     - <<PATH>>/data/d/d_1.txt
-    - <<PATH>>/data/d/d_1.txt
-    - <<PATH>>/data/d/d_1.txt
-    - <<PATH>>/data/d/d_1.txt
-    - <<PATH>>/data/d/d_1.txt
-    - <<PATH>>/data/d/d_1.txt
+    - <<PATH>>/data/d/d_2.txt
+    - <<PATH>>/data/d/d_3.txt
+    - <<PATH>>/data/d/d_4.txt
+    - <<PATH>>/data/d/d_5.txt
+    - <<PATH>>/data/d/d_6.txt
   e:
     - <<PATH>>/data/e/e_1.txt
-    - <<PATH>>/data/e/e_1.txt
-    - <<PATH>>/data/e/e_1.txt
-    - <<PATH>>/data/e/e_1.txt
-    - <<PATH>>/data/e/e_1.txt
-    - <<PATH>>/data/e/e_1.txt
+    - <<PATH>>/data/e/e_2.txt
+    - <<PATH>>/data/e/e_3.txt
+    - <<PATH>>/data/e/e_4.txt
+    - <<PATH>>/data/e/e_5.txt
+    - <<PATH>>/data/e/e_6.txt
   f:
     - <<PATH>>/data/f/f_1.txt
-    - <<PATH>>/data/f/f_1.txt
-    - <<PATH>>/data/f/f_1.txt
-    - <<PATH>>/data/f/f_1.txt
-    - <<PATH>>/data/f/f_1.txt
-    - <<PATH>>/data/f/f_1.txt
+    - <<PATH>>/data/f/f_2.txt
+    - <<PATH>>/data/f/f_2.txt
+    - <<PATH>>/data/f/f_3.txt
+    - <<PATH>>/data/f/f_5.txt
+    - <<PATH>>/data/f/f_6.txt

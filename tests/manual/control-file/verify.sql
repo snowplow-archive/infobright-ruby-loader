@@ -6,4 +6,5 @@ select b.id as row, b.description as b_desc, c.description as c_desc, d.descript
   left join c on b.id = c.id
   left join d on b.id = d.id
   left join e on b.id = e.id
-  left join f on b.id = f.id;
+  left join f on b.id = f.id
+ order by b.id;

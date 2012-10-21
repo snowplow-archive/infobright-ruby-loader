@@ -1,2 +1,2 @@
 use irl_tests;
-select * from a;
+select * from a order by a.id;
