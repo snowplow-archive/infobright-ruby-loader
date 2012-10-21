@@ -18,7 +18,7 @@ The main differences between IRL and ParaFlex are as follows:
 1. IRL can be integrated into Ruby apps (see above)
 2. IRL lets you specify the Infobright username and/or password
 2. IRL lets you specify the data delimiter and encloser
-3. IRL allows loads of multiple files to the same table - it just runs them in series, not in parallel
+3. IRL allows loads of multiple files into the same table - it just runs them in series, not in parallel
 4. IRL can be fed a directory of files, as well as a file list
 
 ## Installation
