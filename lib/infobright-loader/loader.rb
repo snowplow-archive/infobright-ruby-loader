@@ -71,12 +71,13 @@ module InfobrightLoader
       # Now we're ready to start with the load - either parallel or serial
       if t_count == 1
         table, files = load_hash.first
-        load_table(files, table, db, separator, encloser)
+        failures = load_table(files, table, db, separator, encloser)
       else
-        load_parallel(load_hash, db, processes, separator, encloser)
-        # load_serial(load_hash, db, separator, encloser) for debugging without worrying about threads.
+        failures = load_parallel(load_hash, db, processes, separator, encloser)
+        # failures = load_serial(load_hash, db, separator, encloser) # For debugging without worrying about threads.
       end
 
+      failures # Return failures
     end
     module_function :load_from_hash
 
@@ -85,10 +86,18 @@ module InfobrightLoader
     # Load a single table
     def load_table(files, table, db, separator, encloser)
 
+      failures = [] # Tables we didn't manage to load
+
       files.each { |f|
-        puts "Loading file #{f} into table #{db.name}.#{table}"
-        InfobrightLoader::Db.load_file(f, table, db, separator, encloser)
+        puts "Loading file #{f} into table #{db.name}.#{table}" # TODO: move to Ruby logger?
+        begin
+          InfobrightLoader::Db.load_file(f, table, db, separator, encloser)
+        rescue LoadError => le
+          puts "LOAD ERROR: %s" % le # TODO: move to Ruby logger?
+          failures << "%s (%s)" % [f, le]
+        end
       }
+      failures
     end
     module_function :load_table
 
@@ -96,9 +105,15 @@ module InfobrightLoader
     # Only used for debugging
     def load_serial(load_hash, db, separator, encloser)
 
+      files_not_loaded = []
+
       load_hash.keys.each { |k|
-        load_table(load_hash[k], k, db, separator, encloser)
+        failures = load_table(load_hash[k], k, db, separator, encloser)
+        unless failures.empty?
+          files_not_loaded.concat failures
+        end
       }
+      files_not_loaded
     end
     module_function :load_serial
 
@@ -108,6 +123,7 @@ module InfobrightLoader
       tables_to_load = load_hash.keys
       table = nil
       threads = []
+      files_not_loaded = []
       complete = false
       mutex = Mutex.new
 
@@ -135,13 +151,23 @@ module InfobrightLoader
             break if complete # Exit the thread
 
             # Otherwise let's run through and do all the loads for this table
-            load_table(load_hash[table], table, db, separator, encloser)
+            failures = load_table(load_hash[table], table, db, separator, encloser)
+
+            # Also critical: only one thread should update the failures
+            # list at a time
+            mutex.synchronize do
+              unless failures.empty?
+                files_not_loaded.concat failures
+              end
+            end
+
           end
         end
       end
 
       # Wait for threads to finish
       threads.each { |aThread|  aThread.join }
+      files_not_loaded
     end
     module_function :load_parallel
 

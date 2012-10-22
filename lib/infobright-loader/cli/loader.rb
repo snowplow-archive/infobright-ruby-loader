@@ -28,9 +28,11 @@ module InfobrightLoader
       # and then call the appropriate load
       def load(config)
 
+        failures = []
+
         case config
         when InfobrightLoader::Cli::Config::LoadFolderConfig
-          InfobrightLoader::Loader::load_from_folder(
+          failures = InfobrightLoader::Loader::load_from_folder(
             config.folder,
             config.table,
             config.db,
@@ -39,7 +41,7 @@ module InfobrightLoader
           )
 
         when InfobrightLoader::Cli::Config::LoadHashConfig
-          InfobrightLoader::Loader::load_from_hash(
+          failures = InfobrightLoader::Loader::load_from_hash(
             config.load_hash,
             config.db,
             config.processes,
@@ -48,9 +50,14 @@ module InfobrightLoader
           )
 
         else
-          puts ConfigError, "config argument passed to Cli::Loader::load() must be a LoadFolderConfig or a LoadHashConfig"
+          raise ConfigError, "config argument passed to Cli::Loader::load() must be a LoadFolderConfig or a LoadHashConfig"
         end
-        
+
+        unless failures.empty?
+          error = "Load of following files failed (reason in brackets):\n" + \
+                  failures.map{|f| " - " + f}.join("\n")
+          raise InfobrightLoader::Loader::LoadError, error
+        end
       end
       module_function :load
 

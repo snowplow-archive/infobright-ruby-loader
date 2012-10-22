@@ -13,6 +13,8 @@
 # Copyright:: Copyright (c) 2012 SnowPlow Analytics Ltd
 # License::   Apache License Version 2.0
 
+require 'infobright-loader/loader'
+
 module InfobrightLoader
   module Db
 
@@ -54,13 +56,22 @@ module InfobrightLoader
       separator = escaper.call(separator)
       encloser = escaper.call(encloser)
 
+      # Check the file exists
+      unless File.file?(file)
+        raise InfobrightLoader::Loader::LoadError, "file does not exist, or is not a file"
+      end
+
       ib = ib_command_from(db)
       load = "LOAD DATA INFILE '#{file}' " + \
              "INTO TABLE #{table} " + \
-             "FIELDS TERMINATED BY '#{separator}' ENCLOSED BY '#{encloser}'; "
+             "FIELDS TERMINATED BY '#{separator}' ENCLOSED BY '#{encloser}' " +\
+             "LINES TERMINATED BY '\n'; "
 
-      `echo "#{load}" | #{ib} -D #{db.name}`
-      ($?.to_i == 0)
+      stdout_err = `echo "#{load}" | #{ib} -D #{db.name} 2>&1`
+      ret_val = $?.to_i
+      unless ret_val == 0
+        raise InfobrightLoader::Loader::LoadError, "mysql-ib error code #{ret_val}: #{stdout_err}"
+      end
     end
     module_function :load_file
 

@@ -1,5 +1,4 @@
-#!/usr/bin/env ruby
-
+#!/bin/bash
 # Copyright (c) 2012 SnowPlow Analytics Ltd. All rights reserved.
 #
 # This program is licensed to you under the Apache License Version 2.0,
@@ -15,31 +14,27 @@
 # Copyright:: Copyright (c) 2012 SnowPlow Analytics Ltd
 # License::   Apache License Version 2.0
 
-$LOAD_PATH.unshift File.dirname(__FILE__)
+# input parameters
+if [ $# != 2 ]; then
+    echo; echo 'syntax: '$0' <username> <password>'; echo
+    exit 1
+else
+    # assign parameters
+    USERNAME=$1
+    PASSWORD=$2
+fi
 
-require 'infobright-loader/cli/config'
-require 'infobright-loader/cli/loader'
-require 'infobright-loader/loader'
+echo "Running folder-based test..."
+SQL=`locate mysql-ib`
+PWD=`pwd`
 
-# This Ruby script is the command-line interface to the
-# Infobright Ruby Loader.
-#
-begin
-  config = InfobrightLoader::Cli::Config.get_config()
-  InfobrightLoader::Cli::Loader.load(config)
+echo "Setting up Infobright"
+cat setup.sql | ${SQL} -u ${USERNAME} --password=${PASSWORD}
 
-rescue InfobrightLoader::Loader::LoadError => le
-  $stderr.puts(le.message)
-  exit 1
-rescue InfobrightLoader::Cli::Config::ConfigError => e
-  $stderr.puts(e.message)
-  exit 1
-rescue SystemExit => e
-  exit 1
-rescue Exception => e
-  $stderr.puts("Unexpected error: " + e.message)
-  $stderr.puts(e.backtrace.join("\n"))
-  exit 1
-end
+echo "Running Infobright Ruby Loader in control file mode"
+sed "s|<<USERNAME>>|$USERNAME|;s|<<PASSWORD>>|$PASSWORD|;s|<<PATH>>|$PWD|" ./control-file-raw.yml > ./control-file-out.yml
+bundle exec infobright-loader -c control-file-out.yml -d irl_tests -e \" # Override a couple of args to test that too
+rm ./control-file-out.yml
 
-exit 0
+echo "Verifying the load into Infobright - please visually inspect:"
+cat verify.sql | ${SQL} -u ${USERNAME} --password=${PASSWORD}

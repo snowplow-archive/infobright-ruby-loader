@@ -1,0 +1,50 @@
+# Control file for Infobright Ruby Loader control file test
+#
+# Is processed with sed to finalise <<x>> variables before
+# the test is run
+
+:load:
+  :processes: 3 # Test with 3 processes populating 5 tables
+:database:
+  :name: wrong # Will override at the command line to irl_tests
+  :username: <<USERNAME>>
+  :password: <<PASSWORD>>
+:data_format:
+  :separator: \|
+  :encloser: \' # Will override at the command line to "
+:data_loads:
+  b:
+    - <<PATH>>/data/b/b_1.txt # Bad data
+    - <<PATH>>/data/b/b_2.txt
+    - <<PATH>>/data/b/b_3.txt
+    - <<PATH>>/data/b/b_4.txt
+    - <<PATH>>/data/b/b_5.txt
+    - <<PATH>>/data/b/b_6.txt
+  c:
+    - <<PATH>>/data/c/c_1.txt
+    - <<PATH>>/data/c/c_2.txt
+    - <<PATH>>/data/c/BAD_3.txt
+    - <<PATH>>/data/c/c_4.txt
+    - <<PATH>>/data/c/c_5.txt
+    - <<PATH>>/data/c/c_6.txt
+  d:
+    - <<PATH>>/data/d/BAD_1.txt
+    - <<PATH>>/data/d/d_2.txt
+    - <<PATH>>/data/d/d_3.txt
+    - <<PATH>>/data/d/d_4.txt
+    - <<PATH>>/data/d/d_5.txt # Bad data
+    - <<PATH>>/data/d/d_6.txt
+  e:
+    - <<PATH>>/data/e/e_1.txt
+    - <<PATH>>/data/e/e_2.txt
+    - <<PATH>>/data/e/e_3.txt
+    - <<PATH>>/data/e/BAD_4.txt
+    - <<PATH>>/data/e/e_5.txt
+    - <<PATH>>/data/e/BAD_6.txt
+  f:
+    - <<PATH>>/data/f/f_1.txt
+    - <<PATH>>/data/f/f_2.txt
+    - <<PATH>>/data/f/f_3.txt
+    - <<PATH>>/data/f/f_4.txt
+    - <<PATH>>/data/f/f_5.txt
+    - <<PATH>>/data/f/f_6.txt
