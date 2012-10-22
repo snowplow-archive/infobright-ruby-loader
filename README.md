@@ -23,9 +23,7 @@ The main differences between IRL and ParaFlex are as follows:
 
 ## Installation
 
-### Overview
-
-To add.
+IRL is published as a Ruby gem on [Rubygems.org] [irl-rubygems], and so is very easy to install:
 
 ### For command-line use
 
@@ -228,5 +226,6 @@ limitations under the License.
 [ice]: http://www.infobright.org/
 [paraflex]: http://www.infobright.org/Blog/Entry/unscripted/
 [snowplow-repo]: https://github.com/snowplow/snowplow
+[irl-rubygems]: https://rubygems.org/gems/infobright-loader
 [control-file]: https://github.com/snowplow/infobright-ruby-loader/blob/master/control-file/template.yml
 [license]: http://www.apache.org/licenses/LICENSE-2.0
