@@ -64,8 +64,7 @@ module InfobrightLoader
       ib = ib_command_from(db)
       load = "LOAD DATA INFILE '#{file}' " + \
              "INTO TABLE #{table} " + \
-             "FIELDS TERMINATED BY '#{separator}' ENCLOSED BY '#{encloser}' " +\
-             "LINES TERMINATED BY '\n'; "
+             "FIELDS TERMINATED BY '#{separator}' ENCLOSED BY '#{encloser}'; "
 
       stdout_err = `echo "#{load}" | #{ib} -D #{db.name} 2>&1`
       ret_val = $?.to_i
