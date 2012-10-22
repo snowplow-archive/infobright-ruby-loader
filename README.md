@@ -197,7 +197,14 @@ The last three arguments are optional:
 * Move tests into Rspec or Cucumber from Bash
 * Add metrics so load time can be reported
 
-## Contributing
+## Hacking and contributing
+
+### Hacking locally
+
+1. Build the gem (`gem build infobright-loader.gemspec`)
+2. Install the gem (`sudo gem install ./infobright-loader-0.0.1.gem`)
+
+### Contributing
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
