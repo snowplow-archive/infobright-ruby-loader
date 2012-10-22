@@ -23,11 +23,11 @@ The main differences between IRL and ParaFlex are as follows:
 
 ## Installation
 
-IRL is published as a Ruby gem on [Rubygems.org] [irl-rubygems], and so is very easy to install:
+IRL is published as a Ruby gem on [RubyGems.org] [irl-rubygems], so it's very easy to install:
 
 ### For command-line use
 
-You can install IRL like so:
+Install IRL like so:
 
     $ gem install infobright-loader
 
@@ -191,7 +191,6 @@ The last three arguments are optional:
 
 ## Roadmap
 
-* Add error handling for when individual file loads fail
 * Move tests into Rspec or Cucumber from Bash
 * Add metrics so load time can be reported
 
