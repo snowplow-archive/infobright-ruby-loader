@@ -4,7 +4,7 @@
 
 Infobright Ruby Loader (IRL) is a data loader for [Infobright Community Edition] [ice] (ICE) and Enterprise Edition (IEE), built in Ruby.
 
-IRL was inspired by [ParaFlex] [paraflex], a Bash script from the Infobright team to perform parallel loading of ICE and IEE. 
+IRL was inspired by [ParaFlex] [paraflex], a Bash script from the Infobright team to perform parallel loading of data into ICE and IEE. 
 
 IRL can be used to load data into Infobright in two ways:
 
