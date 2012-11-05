@@ -132,7 +132,7 @@ Using IRL from your own Ruby application (e.g. an ETL process) is quite straight
 First require the necessary file:
 
 ```ruby
-require 'infobright-loader/loader'
+require 'infobright-loader'
 ```
 
 Now populate a `DbConfig` struct:
